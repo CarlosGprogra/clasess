@@ -1,0 +1,85 @@
+// Clase base Cuenta
+class Cuenta {
+    protected double saldo;
+
+    public Cuenta(double saldoInicial) {
+        if (saldoInicial >= 0) {
+            this.saldo = saldoInicial;
+        } else {
+            this.saldo = 0;
+            System.out.println("Saldo inicial inválido. Se establece en 0.");
+        }
+    }
+
+    public void depositar(double cantidad) {
+        if (cantidad > 0) {
+            saldo += cantidad;
+            System.out.println("Depósito realizado: $" + cantidad);
+        } else {
+            System.out.println("Cantidad a depositar debe ser mayor que cero.");
+        }
+    }
+
+    public void retirar(double cantidad) {
+        if (cantidad > 0 && cantidad <= saldo) {
+            saldo -= cantidad;
+            System.out.println("Retiro realizado: $" + cantidad);
+        } else {
+            System.out.println("Retiro inválido. Fondos insuficientes o cantidad negativa.");
+        }
+    }
+
+    public void mostrarSaldo() {
+        System.out.println("Saldo actual: $" + saldo);
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+}
+
+// Clase derivada CuentaDeAhorros
+class CuentaDeAhorros extends Cuenta {
+    private double tasaInteresAnual;
+
+    public CuentaDeAhorros(double saldoInicial, double tasaInteresAnual) {
+        super(saldoInicial);
+        if (tasaInteresAnual >= 0) {
+            this.tasaInteresAnual = tasaInteresAnual;
+        } else {
+            this.tasaInteresAnual = 0;
+            System.out.println("Tasa de interés inválida. Se establece en 0.");
+        }
+    }
+
+    // Método para aplicar interés mensual
+    public void aplicarInteresMensual() {
+        double interesMensual = (saldo * (tasaInteresAnual / 12)) / 100;
+        saldo += interesMensual;
+        System.out.println("Interés mensual aplicado: $" + interesMensual);
+    }
+
+    public void mostrarInformacion() {
+        mostrarSaldo();
+        System.out.println("Tasa de interés anual: " + tasaInteresAnual + "%");
+    }
+}
+
+// Clase principal para probar
+public class Banco {
+    public static void main(String[] args) {
+        CuentaDeAhorros miCuenta = new CuentaDeAhorros(1000.0, 5.0);
+        miCuenta.mostrarInformacion();
+        miCuenta.depositar(500);
+        miCuenta.retirar(200);
+        miCuenta.aplicarInteresMensual();
+        miCuenta.mostrarInformacion();
+    }
+}
+## Características del código:
+La clase Cuenta tiene métodos para depositar, retirar, y mostrar saldo.
+
+CuentaDeAhorros hereda de Cuenta y agrega una tasa de interés anual, con un método para aplicar interés mensual.
+
+En el método main, se crea una instancia de CuentaDeAhorros y se prueban las operaciones.
+
